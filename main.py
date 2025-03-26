@@ -37,7 +37,7 @@ st.title("CodeMate: Your AI Programming Assistant")
 # Display an image placeholder
 st.image("Coding.jpg", width=700, caption="Hello Programmer")
 
-# Adjust CSS for padding and text wrapping
+# Adjust CSS for better layout
 st.markdown("""
 <style>
 .block-container {
@@ -46,12 +46,24 @@ st.markdown("""
     padding-left: 1rem;
     padding-right: 1rem;
 }
-.css-1r6slb0 {
-    white-space: normal !important;
+.chat-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #1E1E1E;
 }
-.sidebar-text {
-    white-space: normal !important;
-    word-wrap: break-word;
+.message-user, .message-ai {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.message-user img, .message-ai img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -73,16 +85,23 @@ if st.button("Search"):
         st.session_state.conversation.append({"role": "user", "content": query})
         st.session_state.conversation.append({"role": "assistant", "content": response})
 
-# Display chat history
+# Display chat history inside a scrollable container
+st.markdown("### Chat History")
+st.markdown("<div class='chat-container'>", unsafe_allow_html=True)
+
 for message in st.session_state.conversation:
     if message["role"] == "user":
-        st.image(user_profile_pic, width=38, output_format='PNG')
-        st.markdown(f"**You:** {message['content']}")
+        with st.chat_message("user"):
+            st.image(user_profile_pic, width=38)
+            st.markdown(f"**You:** {message['content']}")
     else:
-        st.image(ai_profile_pic, width=38, output_format='PNG')
-        st.markdown(f"**CodeMate:** {message['content']}")
+        with st.chat_message("assistant"):
+            st.image(ai_profile_pic, width=38)
+            st.markdown(f"**CodeMate:** {message['content']}")
 
-# Additional Streamlit widgets for beautification
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Sidebar Information
 st.sidebar.header("About This App")
 st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether you\'re debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
 
