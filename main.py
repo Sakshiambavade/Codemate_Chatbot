@@ -37,7 +37,7 @@ def get_groq_response(question):
 st.title("CodeMate: Your AI Programming Assistant")
 
 # Display an image placeholder
-st.image("coding.jpg", width=700, caption="Hello Programmer")
+st.image("Coding.jpg", width=700, caption="Hello Programmer")
 
 # Adjust CSS for padding and text wrapping
 st.markdown("""
