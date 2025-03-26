@@ -73,7 +73,7 @@ if st.button("Search"):
 
 # Additional Streamlit widgets for beautification
 st.sidebar.header("About This App")
-st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether you're debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether youre debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
 
 # Add a footer
 st.markdown("---")
