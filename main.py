@@ -17,7 +17,7 @@ def get_groq_response(question):
     messages = [
         {
             "role": "system",
-            "content": "You are a chat bot designed only to answer questions about Programming . You do know anything about coding and programming in any language . You are designed to hep developer , tester and coder. "
+            "content": "You are a chat bot designed only to answer questions about Programming. You do know anything about coding and programming in any language. You are designed to help developers, testers, and coders."
         },
         {
             "role": "user",
@@ -61,19 +61,29 @@ st.markdown("""
 # Input box for user query
 query = st.text_input("Enter your query:")
 
+# User and AI profile images
+user_profile_pic = "user.png"
+ai_profile_pic = "ai.png"
+
 # Button to get response
 if st.button("Search"):
     if query:
         # Get the response from the Groq model
         response = get_groq_response(query)
-        # Display the response
-        st.write("Response:", response)
+        
+        # Display user query with profile pic
+        st.image(user_profile_pic, width=38, output_format='PNG')
+        st.markdown(f"**You:** {query}")
+        
+        # Display AI response with profile pic
+        st.image(ai_profile_pic, width=38, output_format='PNG')
+        st.markdown(f"**CodeMate:** {response}")
     else:
         st.write("Please enter a query.")
 
 # Additional Streamlit widgets for beautification
 st.sidebar.header("About This App")
-st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether youre debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether you're debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
 
 # Add a footer
 st.markdown("---")
