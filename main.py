@@ -15,14 +15,8 @@ MODEL = 'llama3-70b-8192'
 
 def get_groq_response(question):
     messages = [
-        {
-            "role": "system",
-            "content": "You are a chat bot designed only to answer questions about Programming. You do know anything about coding and programming in any language. You are designed to help developers, testers, and coders."
-        },
-        {
-            "role": "user",
-            "content": question,
-        }
+        {"role": "system", "content": "You are a chat bot designed only to answer questions about Programming. You know everything about coding and programming in any language. You are designed to help developers, testers, and coders."},
+        {"role": "user", "content": question}
     ]
 
     response = client.chat.completions.create(
@@ -32,6 +26,10 @@ def get_groq_response(question):
     )
 
     return response.choices[0].message.content
+
+# Initialize chat history if not already set
+if "conversation" not in st.session_state:
+    st.session_state.conversation = []
 
 # Streamlit app title
 st.title("CodeMate: Your AI Programming Assistant")
@@ -43,8 +41,8 @@ st.image("Coding.jpg", width=700, caption="Hello Programmer")
 st.markdown("""
 <style>
 .block-container {
-    padding-top: 3rem;  /* Adjust this value as needed */
-    padding-bottom: 1rem; /* Ensure bottom content is visible */
+    padding-top: 3rem;
+    padding-bottom: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -58,32 +56,35 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Input box for user query
-query = st.text_input("Enter your query:")
-
 # User and AI profile images
 user_profile_pic = "user.png"
 ai_profile_pic = "ai.png"
 
+# Input box for user query
+query = st.text_input("Enter your query:")
+
 # Button to get response
 if st.button("Search"):
     if query:
-        # Get the response from the Groq model
+        # Get response from the Groq model
         response = get_groq_response(query)
-        
-        # Display user query with profile pic
+
+        # Append user and AI messages to session state
+        st.session_state.conversation.append({"role": "user", "content": query})
+        st.session_state.conversation.append({"role": "assistant", "content": response})
+
+# Display chat history
+for message in st.session_state.conversation:
+    if message["role"] == "user":
         st.image(user_profile_pic, width=38, output_format='PNG')
-        st.markdown(f"**You:** {query}")
-        
-        # Display AI response with profile pic
-        st.image(ai_profile_pic, width=38, output_format='PNG')
-        st.markdown(f"**CodeMate:** {response}")
+        st.markdown(f"**You:** {message['content']}")
     else:
-        st.write("Please enter a query.")
+        st.image(ai_profile_pic, width=38, output_format='PNG')
+        st.markdown(f"**CodeMate:** {message['content']}")
 
 # Additional Streamlit widgets for beautification
 st.sidebar.header("About This App")
-st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether you're debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-text">CodeMate is an AI-powered chatbot designed to help programmers with coding-related queries. Whether you\'re debugging an issue, learning a new programming language, or optimizing your code, CodeMate is here to assist.</div>', unsafe_allow_html=True)
 
 # Add a footer
 st.markdown("---")
