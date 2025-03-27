@@ -36,7 +36,7 @@ if "conversation" not in st.session_state:
 st.title("💻 CodeMate: Your AI Programming Assistant")
 
 # Display an image placeholder
-st.image("coding.jpg", width=700, caption="Hello, Programmer! 🚀")
+st.image("Coding.jpg", width=700, caption="Hello, Programmer! 🚀")
 
 # Apply custom CSS for chat UI
 st.markdown("""
